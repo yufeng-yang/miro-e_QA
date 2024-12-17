@@ -304,21 +304,21 @@ class GoodWeatherFeedback:
     def main(self):
         # 创建线程来并行处理灯光和音频播放
         light_thread = threading.Thread(target=self.light_function)
-        music_thread = threading.Thread(target=self.play_music)
+        # music_thread = threading.Thread(target=self.play_music)
         motion_thread = threading.Thread(target=self.walk_around)
         tail_thread = threading.Thread(target=self.wag_tail)
         head_thread = threading.Thread(target=self.head_control)
 
         # 启动线程
         light_thread.start()
-        music_thread.start()
+        # music_thread.start()
         motion_thread.start()
         tail_thread.start()
         head_thread.start()
 
         # 等待线程完成
         light_thread.join()
-        music_thread.join()
+        # music_thread.join()
         motion_thread.join()
         tail_thread.join()
         head_thread.join()

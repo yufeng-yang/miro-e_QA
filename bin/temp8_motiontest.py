@@ -7,12 +7,11 @@ class SimpleMovementAndLight:
     def __init__(self, interface):
         self.interface = interface
 
-    def move_forward(self):
-        """让机器人向前移动一段时间"""
-        # 设置直线速度为正值（移动前进），角速度为0
-        lin_vel = 0.2  # 设置线速度，正值表示前进
-        ang_vel = 0.0  # 设置角速度为0，不旋转
-        duration = 5  # 移动5秒钟
+    def spin(self, duration=8):
+
+        # 设置线速度和角速度
+        lin_vel = 0.2  # 设置较低线速度，表示小幅前进
+        ang_vel = 0.785 # 设置角速度，表示旋转
 
         for _ in range(int(duration / 0.1)):
             self.interface.set_vel(lin_vel=lin_vel, ang_vel=ang_vel)
@@ -41,7 +40,7 @@ class SimpleMovementAndLight:
 
     def main(self):
         # 创建线程处理移动和灯光控制
-        move_thread = threading.Thread(target=self.move_forward)
+        move_thread = threading.Thread(target=self.spin)
         light_thread = threading.Thread(target=self.light_effect)
 
         # 启动线程

@@ -23,14 +23,14 @@
 
 from openai import OpenAI
 
-def get_openai_response(prompt, role_description="a lovely dog named Miro-e"):
+def get_openai_response(prompt, role_description="a lovely dog named Miro-e", users_emotion='neutral'):
     client = OpenAI()
     try:
         completion = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 # 动态设置系统角色
-                {"role": "system", "content": f"You are {role_description}. You pretend my text input is voice input"},
+                {"role": "system", "content": f"You are {role_description}. User's emotion is {users_emotion}. You pretend my text input is voice input, and Chrismas is coming soon. Finish with question. Give me maximum 4 sentences."},
                 {"role": "user", "content": prompt}
             ]
         )

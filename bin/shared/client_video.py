@@ -79,7 +79,9 @@ if len(sys.argv) == 1:
 
 class client:
 
+	# 这里连着三个call_back函数是用于将ros的图像转化为opencv2能处理的图像
 	def callback_cam(self, ros_image, index):
+		# 传入两个参数，第一个是ros的图像，第二个是索引，用于区分左右眼
 
 		# silently (ish) handle corrupted JPEG frames
 		try:
@@ -88,6 +90,7 @@ class client:
 			image = self.image_converter.compressed_imgmsg_to_cv2(ros_image, "rgb8")
 
 			# store image for display
+			# 将转化好的opencv2格式的图像存在self.input_camera[0/1]中,也是用于区分左右眼
 			self.input_camera[index] = image
 
 		except CvBridgeError as e:
@@ -105,7 +108,7 @@ class client:
 		self.callback_cam(ros_image, 1)
 
 	def detect_april(self, im):
-
+		# 这个是用作tag的方法。
 		# get grey frame
 		im_grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
@@ -133,10 +136,15 @@ class client:
 	def loop(self):
 
 		# state
+		# 选择要处理的是左右两个摄像头还是合成的那一个摄像头
 		channels_to_process = [0, 1]
 		if not self.image_stitcher is None:
 			channels_to_process = [2]
+		# 储存的容器
 		outfile = [None, None, None]
+		# outcount 用于记录每个通道录制的帧数。
+		# t0 用于记录时间，用来定期报告帧数。
+		# cam_names 是摄像头的名称，对应左右摄像头和拼接图像。
 		outcount = [0] * len(outfile)
 		t0 = time.time()
 		cam_names = ['left', 'right', 'stitched']

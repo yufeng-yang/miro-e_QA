@@ -7,8 +7,6 @@ import rospy
 
 interface = miro.lib.RobotInterface() 
 
-
-
 sound_file = generate_single_respond()
 playback = AudioPlayback(interface, "/miro", sound_file)
 rospy.sleep(2)
